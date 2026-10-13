@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 name: Selenium Cross-Browser Tests
 
@@ -43,3 +44,33 @@ jobs:
 
       - name: Run Selenium tests
         run: python -m unittest -v test_cross_browser.py
+=======
+
+name: Cross-Browser Selenium Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Selenium tests
+        run: python -m unittest -v test_cross_browser.py
+>>>>>>> 9b68a7f5183d2acfd9e8004ec5f97f1727f0bc97
