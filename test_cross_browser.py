@@ -20,7 +20,8 @@ class LoginTests:
         self.wait = WebDriverWait(self.driver, 10)
 
     def tearDown(self):
-         pass
+        if hasattr(self, "driver"):
+            self.driver.quit()
 
     def test_valid_login(self):
         self.driver.find_element(
