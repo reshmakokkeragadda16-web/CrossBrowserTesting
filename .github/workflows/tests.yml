@@ -1,0 +1,45 @@
+
+name: Selenium Cross-Browser Tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install Chrome
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: stable
+
+      - name: Install Firefox
+        uses: browser-actions/setup-firefox@v1
+
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+
+      - name: Start web server
+        run: |
+          python -m http.server 8000 > server.log 2>&1 &
+          for i in {1..10}; do
+            if curl -fsS http://127.0.0.1:8000/login.html > /dev/null; then
+              break
+            fi
+            sleep 1
+          done
+          curl -fsS http://127.0.0.1:8000/login.html > /dev/null
+
+      - name: Run Selenium tests
+        run: python -m unittest -v test_cross_browser.py
