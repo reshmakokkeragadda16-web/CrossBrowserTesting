@@ -23,7 +23,7 @@ class LoginTests:
 
             self.driver = webdriver.Chrome(options=options)
 
-        else:
+        elif self.browser == "Firefox":
             options = webdriver.FirefoxOptions()
 
             if CI:
